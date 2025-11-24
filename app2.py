@@ -62,30 +62,38 @@ with tab2:
 
     raw_pack_data = st.text_area("📋 Paste table for pack calculation:", height=220)
 
-    if st.button("Calculate Packs Needed"):
-        try:
-            pack_df = pd.read_csv(StringIO(raw_pack_data), sep="\t")
-            pack_df.columns = pack_df.columns.str.strip()
+if st.button("Calculate Packs Needed"):
+    try:
+        pack_df = pd.read_csv(StringIO(raw_pack_data), sep="\t")
+        pack_df.columns = pack_df.columns.str.strip()
 
-            required = ["Customer", "Item", "Quantity", "Pack Quantity"]
-            if not all(col in pack_df.columns for col in required):
-                st.error("⚠ Missing required columns. Need: Customer, Item, Quantity, Pack Quantity")
-            else:
-                agg_dict = {"Quantity": "sum", "Pack Quantity": "first",
-                            "Item Description": "first" if "Item Description" in pack_df.columns else "first"}
+        required = ["Customer", "Item", "Quantity", "Pack Quantity"]
+        if not all(col in pack_df.columns for col in required):
+            st.error("⚠ Missing required columns. Need: Customer, Item, Quantity, Pack Quantity")
+        else:
+            agg_dict = {"Quantity": "sum", "Pack Quantity": "first",
+                        "Item Description": "first" if "Item Description" in pack_df.columns else "first"}
 
-                result = pack_df.groupby(["Customer", "Item"], as_index=False).agg(agg_dict)
-                result["Packs Needed"] = result["Quantity"] / result["Pack Quantity"]
-                result["Packs Needed"] = result["Packs Needed"].apply(format_packs)
+            result = pack_df.groupby(["Customer", "Item"], as_index=False).agg(agg_dict)
+            result["Packs Needed"] = result["Quantity"] / result["Pack Quantity"]
+            result["Packs Needed"] = result["Packs Needed"].apply(format_packs)
 
-                st.success("📦 Pack calculation complete!")
-                st.dataframe(result)
+            # ---- INSERT BLANK ROWS BETWEEN CUSTOMER GROUPS ----
+            styled_rows = []
+            for cust, group in result.groupby("Customer"):
+                styled_rows.append(group)
+                styled_rows.append(pd.DataFrame([[""] * len(result.columns)], columns=result.columns))
+            result_with_breaks = pd.concat(styled_rows, ignore_index=True)
 
-                st.download_button(
+            st.success("📦 Pack calculation complete!")
+            st.dataframe(result_with_breaks)
+
+            st.download_button(
                 label="📥 Download Pack Results",
-                data=result.to_csv(index=False).encode("utf-8"),
+                data=result_with_breaks.to_csv(index=False).encode("utf-8"),
                 file_name="pack_calculation.csv",
-                mime="text/csv")
+                mime="text/csv"
+            )
 
 
 
