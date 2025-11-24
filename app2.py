@@ -1,16 +1,6 @@
 import streamlit as st
 import pandas as pd
 
-def copy_to_clipboard_button(text, label="Copy to Clipboard"):
-    clipboard_js = f"""
-        <script>
-        function copyToClipboard() {{
-            navigator.clipboard.writeText(`{text}`);
-        }}
-        </script>
-        <button onclick="copyToClipboard()">{label}</button>
-    """
-    st.markdown(clipboard_js, unsafe_allow_html=True)
 
 
 from io import StringIO
