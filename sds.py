@@ -132,7 +132,7 @@ delivery_schedule = {
         {"code": "6402", "name": "Doncaster Warehouse", "weekly_required": False},
         {"code": "6409", "name": "Epsom - Bendigo Warehouse", "weekly_required": False},
         {"code": "6411", "name": "Sunbury Warehouse", "weekly_required": False},
-        {"code": "6451", "name": "Manor Lakes", "weekly_required": True},
+        {"code": "6415", "name": "Manor Lakes", "weekly_required": True},
         {"code": "6420", "name": "Horsham Store", "weekly_required": True},
         {"code": "6422", "name": "Mernda Warehouse", "weekly_required": False},
         {"code": "6425", "name": "Collingwood Store", "weekly_required": False},
@@ -368,4 +368,5 @@ if __name__ == "__main__":
     print("\nStores with 'Mornington' in name:")
     results = search_store_by_name("Mornington")
     for r in results:
+
         print(f"  • {r['store']['code']}: {r['store']['name']} - {r['day']}")
