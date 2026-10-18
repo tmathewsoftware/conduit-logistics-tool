@@ -245,7 +245,7 @@ delivery_schedule = {
         {"code": "6299", "name": "Hawthorn Warehouse", "weekly_required": False},
         {"code": "6310", "name": "Coburg Warehouse", "weekly_required": False},
         {"code": "6386", "name": "Caroline Springs Warehouse", "weekly_required": False},
-        {"code": "6387", "name": "Bayswater Trade", "weekly_required": False},,
+        {"code": "6387", "name": "Bayswater Trade", "weekly_required": False},
         {"code": "6390", "name": "Thomastown Warehouse", "weekly_required": False},
         {"code": "6400", "name": "Mentone Warehouse", "weekly_required": False},
         {"code": "6401", "name": "Epping Warehouse", "weekly_required": False},
